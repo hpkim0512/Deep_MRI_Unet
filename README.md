@@ -1,10 +1,5 @@
 # [Deep learning for undersampled MRI reconstruction](https://arxiv.org/pdf/1709.02576.pdf)
 ![alt text](https://github.com/hpkim0512/Unet/blob/master/web/img/architecture.png)
-This paper presents a deep learning method for faster magnetic resonance imaging (MRI) by reducing k-space data with sub-Nyquist sampling strategies and provides a rationale for why the proposed approach works well.
-Uniform subsampling is used in the time-consuming phase-encoding direction to capture high-resolution image information, while permitting the image-folding problem dictated by the Poisson summation formula.
-To deal with the localization uncertainty due to image folding, very few low-frequency k-space data are added.
-Training the deep learning net involves input and output images that are pairs of Fourier transforms of the subsampled and fully sampled k-space data.
-Numerous experiments show the remarkable performance of the proposed method; only 29% of k-space data can generate images of high quality as effectively as standard MRI reconstruction with fully sampled data.
 
 # Prerequisites
 - Python 3.5

@@ -12,10 +12,10 @@ Numerous experiments show the remarkable performance of the proposed method; onl
 - [h5py](www.h5py.org/)
 
 # Usage
-To train a model with dataset Version 7.3 MAT-file 'dataset.mat':
+To train a model with dataset Version 7.3 MAT-file 'data_set.mat':
 
-    ... add MAT-file to data directory  => ./data/dataset.mat ...
-    $ python main.py --data_set=dataset
+    ... add MAT-file to data directory  => ./data/data_set.mat ...
+    $ python main.py --data_set=data_set
 
 'dataset.mat' have to consists of 'input' and 'label' whose shape as [width, height, num_of_data]
 
@@ -23,9 +23,9 @@ To train a model with dataset Version 7.3 MAT-file 'dataset.mat':
 
 If you have more than one GPU, it supports to activate multi-GPUs:
 
-    $ python main.py --data_set=dataset --num_gpu=4
+    $ python main.py --data_set=data_set --num_gpu=4
 
-To test with an existing model (./logs/model) and testset Version 7.3 MAT-file 'testset.mat':
+To test with an existing model (./logs/model) and test_set Version 7.3 MAT-file 'test_set.mat':
 
-    ... add MAT-file to data directory  => ./data/testset.mat ...
-    $ python main.py --is_train=False --ckpt_dir=model --test_set=testset
+    ... add MAT-file to data directory  => ./data/test_set.mat ...
+    $ python main.py --is_train=False --ckpt_dir=model --test_set=test_set

@@ -162,17 +162,17 @@ class Unet(object):
                     mb_end = mb_per_gpu * (d + 1)
                     label_mb = self.Y[mb_start:mb_end]
                     image_mb = self.inference(input_=self.X[mb_start:mb_end])
-                    loss = tf.nn.l2_loss(label_mb - image_mb)) / mb_per_gpu
+                    loss = tf.nn.l2_loss(label_mb - image_mb) / mb_per_gpu
 
-                        # Reuse variables for the next tower.
-                        tf.get_variable_scope().reuse_variables()
+                    # Reuse variables for the next tower.
+                    tf.get_variable_scope().reuse_variables()
 
-                        # Calculate the gradients for the batch of data on this tower.
-                        g_v=self.optimizer.compute_gradients(loss)
+                    # Calculate the gradients for the batch of data on this tower.
+                    g_v=self.optimizer.compute_gradients(loss)
 
-                        # Keep track of the gradients and loss across all towers.
-                        loss_tmp.append(loss)
-                        grad_tmp.append(g_v)
+                    # Keep track of the gradients and loss across all towers.
+                    loss_tmp.append(loss)
+                    grad_tmp.append(g_v)
         return loss_tmp, grad_tmp
 
     def inference(self, input_):

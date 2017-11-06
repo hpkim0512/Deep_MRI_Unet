@@ -23,12 +23,12 @@ flags.DEFINE_string('ckpt_dir', None,
                     """ Directory name to save the checkpoints.""")
 flags.DEFINE_integer('logs_step', None,
                      """ logs_step. If none, epoch_num/5. """)
-flags.DEFINE_integer('restore_step', 500,
+flags.DEFINE_integer('restore_step', None,
                      """ Index of restore ckpt file.""")
 
-flags.DEFINE_integer('hidden_num', 16,
+flags.DEFINE_integer('hidden_num', 64,
                      """ Number of channels at first hidden layer.""")
-flags.DEFINE_integer('epoch_num', 250,
+flags.DEFINE_integer('epoch_num', 2000,
                      """ Epoch to train.""")
 flags.DEFINE_integer('batch_size', 32,
                      """ The size of batch images.""")

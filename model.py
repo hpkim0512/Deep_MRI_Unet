@@ -149,42 +149,52 @@ class Unet(object):
         print(Out_.shape)
 
     def loss_and_grad(self):
+        # Calculate the gradients and losses for each model tower.
         loss_tmp = []
         grad_tmp = []
         mb_per_gpu = int(self.batch_size / self.num_gpu)
         with tf.variable_scope(tf.get_variable_scope()):
             for d in range(self.num_gpu):
                 with tf.device('/gpu:' + str(d)):
-                    start = mb_per_gpu * d
-                    end = mb_per_gpu * (d + 1)
-                    loss = tf.nn.l2_loss(
-                        self.Y[start:end] - self.inference(input_=self.X[start:end])) / mb_per_gpu
-                    tf.get_variable_scope().reuse_variables()
-                    g_v = self.optimizer.compute_gradients(loss)
-                    loss_tmp.append(loss)
-                    grad_tmp.append(g_v)
+                    # Calculate the loss for one tower of the model. This function
+                    # constructs the entire model but shares the variables across all towers.
+                    mb_start = mb_per_gpu * d
+                    mb_end = mb_per_gpu * (d + 1)
+                    label_mb = self.Y[mb_start:mb_end]
+                    image_mb = self.inference(input_=self.X[mb_start:mb_end])
+                    loss = tf.nn.l2_loss(label_mb - image_mb)) / mb_per_gpu
+
+                        # Reuse variables for the next tower.
+                        tf.get_variable_scope().reuse_variables()
+
+                        # Calculate the gradients for the batch of data on this tower.
+                        g_v=self.optimizer.compute_gradients(loss)
+
+                        # Keep track of the gradients and loss across all towers.
+                        loss_tmp.append(loss)
+                        grad_tmp.append(g_v)
         return loss_tmp, grad_tmp
 
     def inference(self, input_):
-        h_ = self.hidden_num
-        input_ = tf.reshape(input_, [-1, self.width, self.height, 1])
+        h_=self.hidden_num
+        input_=tf.reshape(input_, [-1, self.width, self.height, 1])
 
-        conv1, pool1 = conv_conv_pool(input_, [h_, h_], self.activation,
-                                      self.w_bn, self.is_train, name="1")
+        conv1, pool1=conv_conv_pool(input_, [h_, h_], self.activation,
+                                        self.w_bn, self.is_train, name = "1")
 
-        conv2, pool2 = conv_conv_pool(pool1, [2 * h_, 2 * h_], self.activation,
-                                      self.w_bn, self.is_train,  name="2")
+        conv2, pool2=conv_conv_pool(pool1, [2 * h_, 2 * h_], self.activation,
+                                        self.w_bn, self.is_train,  name = "2")
 
-        conv3 = conv_conv_pool(pool2, [4 * h_, 2 * h_], self.activation,
-                               self.w_bn, self.is_train, name="3", pool=False)
+        conv3=conv_conv_pool(pool2, [4 * h_, 2 * h_], self.activation,
+                                self.w_bn, self.is_train, name="3", pool=False)
 
         up4 = tf.concat([self.upsampling(conv3), conv2], 3)
         conv4 = conv_conv_pool(up4, [4 * h_, 2 * h_], self.activation,
-                               self.w_bn, self.is_train, name="4", pool=False,)
+                                self.w_bn, self.is_train, name="4", pool=False,)
 
         up5 = tf.concat([self.upsampling(conv4), conv1], 3)
         conv5 = conv_conv_pool(up5, [2 * h_, h_], self.activation,
-                               self.w_bn, self.is_train, name="5", pool=False)
+                                self.w_bn, self.is_train, name="5", pool=False)
 
         conv6 = conv2d(conv5, 1, k_h=1, k_w=1, name='layer_fc')
 

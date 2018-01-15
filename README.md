@@ -7,7 +7,7 @@
 - [h5py](www.h5py.org/)
 
 # Usage
-To train a model with dataset Version 7.3 MAT-file 'data_set.mat':
+To train a model with dataset Version 7.3 MAT-file 'data_set.mat' ([Download](https://drive.google.com/file/d/19Q3XUzfKqIquNxCFGAM2uiKzADt_8gH_/view?usp=sharing)):
 
     ... add MAT-file to data directory  => ./data/data_set.mat ...
     $ python main.py --data_set=data_set
@@ -20,7 +20,6 @@ If you have more than one GPU, it supports to activate multi-GPUs:
 
     $ python main.py --data_set=data_set --num_gpu=4
 
-To test with an existing model (./logs/model) and test_set Version 7.3 MAT-file 'test_set.mat':
-
+To test with an existing model (./logs/model) and test_set Version 7.3 MAT-file 'test_set.mat' ([Download](https://drive.google.com/file/d/1y6NcCqALeyN3zgIxqyJAlYDDTHYy3qzi/view?usp=sharing)):
     ... add MAT-file to data directory  => ./data/test_set.mat ...
     $ python main.py --is_train=False --ckpt_dir=model --test_set=test_set

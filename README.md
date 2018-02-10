@@ -20,7 +20,7 @@ If you have more than one GPU, it supports to activate multi-GPUs:
 
     $ python main.py --data_set=data_set --num_gpu=4
 
-On the other hand, you can download a trained model at [here](https://drive.google.com/file/d/1FR71iw9Ia_6kMXcoDvbGJv_kmRQhdHlj/view?usp=sharing])
+On the other hand, you can download a trained model at [here](https://drive.google.com/file/d/1FR71iw9Ia_6kMXcoDvbGJv_kmRQhdHlj/view?usp=sharing]).
 
 To test with an existing model (./logs/model) and test_set Version 7.3 MAT-file 'test_set.mat' ([Download](https://drive.google.com/file/d/1y6NcCqALeyN3zgIxqyJAlYDDTHYy3qzi/view?usp=sharing)):
 

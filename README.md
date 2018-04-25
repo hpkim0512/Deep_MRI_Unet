@@ -26,3 +26,15 @@ To test with an existing model (./logs/model) and test_set Version 7.3 MAT-file 
 
     ... add MAT-file to data directory  => ./data/test_set.mat ...
     $ python main.py --is_train=False --ckpt_dir=model --test_set=test_set
+
+# Folder structure
+    ├── main.py
+    ├── data (not included in this repo)
+    |   ├── data_set.mat
+    |   └── test_set.mat
+    ├── model.py
+    ├── ops.py
+    ├── utils.py
+    └── logs (not included in this repo)
+        └── model
+    

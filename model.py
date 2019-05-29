@@ -80,14 +80,14 @@ class Unet(object):
                 self.cost = tf.reduce_mean(loss_tmp)
                 grad = average_gradients(grad_tmp)
                 tf.summary.scalar("cost", self.cost)
+                
+            update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+            with tf.device('/cpu:0'):
+                with tf.control_dependencies(update_ops):
+                    self.train_op = self.optimizer.apply_gradients(grad)
         else:
             with tf.variable_scope(tf.get_variable_scope()):
                 self.logit = self.inference(self.X)
-
-        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-        with tf.device('/cpu:0'):
-            with tf.control_dependencies(update_ops):
-                self.train_op = self.optimizer.apply_gradients(grad)
 
         self.summary = tf.summary.merge_all()
 
